@@ -1,0 +1,19 @@
+syntax: glob
+*~
+*.pyc
+*.pyo
+*.o
+*.la
+*.lo
+*.gch
+a.out
+*.pfd
+*.elf
+*.test
+*.pdf
+*.swp
+.libs
+.ropeproject/*
+
+syntax: regexp
+.*\#.*\#$
