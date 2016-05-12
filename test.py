@@ -1,22 +1,16 @@
 import time
-import libraw as raw
+import raw
+import matplotlib.pyplot as plt
 
 print(hex(id(raw)))
 
 tic = time.time()
 print(tic)
-i = raw.LibRaw()
 
-print(i, i._c_parent)
-print(1)
-i.open_file('/home/jcarrano/imgdata/DSC02866.ARW')
-print(2)
-i.unpack()
-print(3)
+i = raw.Raw('/home/jcarrano/imgdata/DSC02866.ARW')
+
 toc = time.time()
 print('TIME:', toc-tic)
-
-import matplotlib.pyplot as plt
 
 print('#1')
 idata = i.imgdata

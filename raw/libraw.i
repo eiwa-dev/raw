@@ -2,7 +2,7 @@
 
 /* Wrapper for raw library */
 
-%module libraw
+%module(package="raw") libraw
 
 %feature("autodoc", "1");
 

@@ -5,8 +5,8 @@ setup.py file for RAW library
 """
 
 from distutils.core import setup, Extension
-from distutils.command.build_py import build_py as _build_py
-from distutils import sysconfig, spawn
+from distutils.command.build_ext import build_ext as _build_ext
+from distutils import spawn
 from distutils.version import LooseVersion
 import subprocess, re
 
@@ -32,20 +32,23 @@ def get_swig_executable():
     return swig_executable
 
 
-class Build_Ext_find_swig3(_build_py):
+class Build_Ext_find_swig3(_build_ext):
     def find_swig(self):
         return get_swig_executable()
 
-libraw_wrapper = Extension('libraw',
-                           sources=['libraw.i'],
-                           swig_opts=['-builtin', '-lraw'],
+libraw_wrapper = Extension('raw._libraw',
+            sources=['raw/libraw.i'],
+            swig_opts=['-c++', '-builtin', '-relativeimport', '-lraw',
+                        '-I/usr/include'],
+            libraries = ['raw']
                            )
 
 setup (name = 'libraw',
        version = '0.1',
-       author      = "Juan I Carrano",
+       author      = 'Juan I Carrano',
+       author_email='jc@eiwa.ag',
        description = """LibRaw Wrapper""",
        ext_modules = [libraw_wrapper],
-       py_modules = ["libraw"],
+       packages = ["raw"],
        cmdclass = {"build_ext": Build_Ext_find_swig3}
        )
