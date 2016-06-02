@@ -33,4 +33,8 @@ print('TIME:', toc-tic)
 p = idata.image
 print(p.shape)
 plt.imshow(p[...,:3], interpolation = 'none')
+
+plt.figure()
+plt.plot(idata.color.curve[:2**12])
+
 plt.show()

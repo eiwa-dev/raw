@@ -14,6 +14,7 @@
 %}
 
 %include "typemaps.i"
+%include "pybuffer.i"
 %include "numpy_out.i"
 
 /* This function loads the Numpy API.
@@ -49,6 +50,23 @@ static int _import_array(void);
       _d3(arg1->sizes.iheight , arg1->sizes.iwidth, 4))
 }
 
+// Function typemaps
+
+%define %pybuffer_binaryvoid(TYPEMAP, SIZE)
+%typemap(in) (TYPEMAP, SIZE)
+  (int res, Py_ssize_t size = 0, const void *buf = 0) {
+  res = PyObject_AsReadBuffer($input, &buf, &size);
+  if (res<0) {
+    PyErr_Clear();
+    %argument_fail(res, "(TYPEMAP, SIZE)", $symname, $argnum);
+  }
+  $1 = ($1_ltype) buf;
+  $2 = ($2_ltype) size;
+}
+%enddef
+
+%pybuffer_binaryvoid(char *BUFFER, size_t SIZE)
+%apply (char *BUFFER, size_t SIZE) { (void *buffer, size_t size) };
 
 // Niceties
 
