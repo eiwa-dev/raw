@@ -48,7 +48,7 @@ libraw_wrapper = Extension('raw._libraw',
             libraries = ['raw']
                            )
 
-setup (name = 'libraw',
+setup (name = 'raw',
        version = '0.1.1',
        author      = 'Juan I Carrano',
        author_email='jc@eiwa.ag',
