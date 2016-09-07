@@ -43,6 +43,7 @@ py3opt = ['-py3'] if PY3 else []
 
 libraw_wrapper = Extension('raw._libraw',
             sources=['raw/libraw.i'],
+            depends=['raw/numpy_out.i'],
             swig_opts=['-c++', '-builtin', '-relativeimport', '-lraw',
                         '-I/usr/include'] + py3opt,
             libraries = ['raw']
