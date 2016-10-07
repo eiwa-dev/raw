@@ -34,6 +34,7 @@ setup.py file for RAW library
 """
 
 import sys
+import numpy
 from distutils.core import setup, Extension
 from distutils.command.build_ext import build_ext as _build_ext
 from distutils import spawn
@@ -78,7 +79,8 @@ libraw_wrapper = Extension('raw._libraw',
             depends=['raw/numpy_out.i'],
             swig_opts=['-c++', '-builtin', '-relativeimport', '-lraw',
                         '-I/usr/include'] + py3opt,
-            libraries = ['raw']
+            libraries = ['raw'],
+            include_dirs=[numpy.get_include()]
                            )
 
 setup (name = 'raw',
