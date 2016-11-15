@@ -36,14 +36,14 @@ setup.py file for RAW library
 import sys
 
 # Super-ugly hack to allow us to build a sdist without having numpy
-if sys.argv[1] != 'sdist':
+if not (len(sys.argv) > 1 and sys.argv[1] in ('sdist', '--name', '--version')):
     import numpy
     NUMPY_INCLUDE_DIRS = [numpy.get_include()]
 else:
     NUMPY_INCLUDE_DIRS = []
 
-from distutils.core import setup, Extension
-from distutils.command.build_ext import build_ext as _build_ext
+from setuptools import setup, Extension
+from setuptools.command.build_ext import build_ext as _build_ext
 from distutils import spawn
 from distutils.version import LooseVersion
 import subprocess, re
