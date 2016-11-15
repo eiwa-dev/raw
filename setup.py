@@ -34,7 +34,14 @@ setup.py file for RAW library
 """
 
 import sys
-import numpy
+
+# Super-ugly hack to allow us to build a sdist without having numpy
+if sys.argv[1] != 'sdist':
+    import numpy
+    NUMPY_INCLUDE_DIRS = [numpy.get_include()]
+else:
+    NUMPY_INCLUDE_DIRS = []
+
 from distutils.core import setup, Extension
 from distutils.command.build_ext import build_ext as _build_ext
 from distutils import spawn
@@ -80,7 +87,7 @@ libraw_wrapper = Extension('raw._libraw',
             swig_opts=['-c++', '-builtin', '-relativeimport', '-lraw',
                         '-I/usr/include'] + py3opt,
             libraries = ['raw'],
-            include_dirs=[numpy.get_include()]
+            include_dirs=NUMPY_INCLUDE_DIRS
                            )
 
 setup (name = 'raw',
