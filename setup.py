@@ -77,6 +77,21 @@ class Build_Ext_find_swig3(_build_ext):
     def find_swig(self):
         return get_swig_executable()
 
+# We do some trickery to assure SWIG is always run before installing the
+# generated files.
+# http://stackoverflow.com/questions/12491328/python-distutils-not-include-the-swig-generated-module
+from setuptools.command.install import install
+from distutils.command.build import build
+
+class CustomBuild(build):
+    def run(self):
+        self.run_command('build_ext')
+        build.run(self)
+
+class CustomInstall(install):
+    def run(self):
+        self.run_command('build_ext')
+        install.run(self)
 
 PY3 = sys.version_info[0] > 2
 py3opt = ['-py3'] if PY3 else []
@@ -91,7 +106,7 @@ libraw_wrapper = Extension('raw._libraw',
                            )
 
 setup (name = 'raw',
-       version = '0.1.2',
+       version = '0.1.3',
        description = """SWIG based LibRaw bindings""",
        long_description='Low level but pythonic bindings for libraw.',
        classifiers=[
@@ -112,5 +127,6 @@ setup (name = 'raw',
        license = 'BSD',
        ext_modules = [libraw_wrapper],
        packages = ["raw"],
-       cmdclass = {"build_ext": Build_Ext_find_swig3}
+       cmdclass = {"build_ext": Build_Ext_find_swig3,
+                "build": CustomBuild, "install": CustomInstall}
        )
