@@ -91,7 +91,7 @@ libraw_wrapper = Extension('raw._libraw',
                            )
 
 setup (name = 'raw',
-       version = '0.1.1',
+       version = '0.1.2',
        description = """SWIG based LibRaw bindings""",
        long_description='Low level but pythonic bindings for libraw.',
        classifiers=[
@@ -104,6 +104,9 @@ setup (name = 'raw',
        ],
        keywords='camera raw images photos photography libraw',
        # url = ???????,
+       install_requires=[
+          'numpy',
+       ],
        author      = 'Juan I Carrano',
        author_email='jc@eiwa.ag',
        license = 'BSD',
