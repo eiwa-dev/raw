@@ -68,6 +68,12 @@ class Raw(libraw.LibRaw):
         if unpack:
             self.unpack()
 
+    def _recycle(self):
+        super(Raw, self).recycle()
+
+    def __del__(self):
+        super(Raw, self).free_image()
+
     def __getattribute__(self, name):
         """Proxy that forwards all attribute accesses to the superclass,
         except those methods that are forbidden."""
